@@ -55,3 +55,7 @@ To run the project locally, follow these steps:
 
 - **User Portal:** Visit the website, explore the catalog, and make purchases. Create an account to track orders.
 - **Admin Panel:** Access the admin page to add new products, edit existing ones, and manage the catalog.
+
+## Figma
+
+- https://www.figma.com/file/CjNT9ARG93EhLPM2SeWLdv/Fill-Rouge?type=design&node-id=0%3A1&mode=design&t=s6pOZolSqqBlcaGj-1
