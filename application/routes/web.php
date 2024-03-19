@@ -23,9 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('home', ['page' => 'Home']);
 });
-Route::get('/home', function () {
-    return view('home', ['page' => 'Home']);
-});
 
 // auth
 Route::middleware('guest')->group(function () {
@@ -48,4 +45,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(CheckIfUserAdmin::class);
+});
+
+Route::get('/about', function () {
+    return view('about', ['page' => 'About']);
 });

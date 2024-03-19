@@ -17,10 +17,12 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
+//        dd($request->role);
         $request->validate([
             'name' => 'required|string|min:4|max:100',
             'email' => 'required|email|unique:users|max:255|ends_with:gmail.com',
-            'password' => 'required|string|min:8'
+            'password' => 'required|string|min:8',
+            'role' => 'required'
         ]);
         $usrCount = count(User::all());
         $user = User::create([
@@ -35,7 +37,7 @@ class RegisterController extends Controller
             $user->save();
             return redirect('/dashboard');
         } else {
-            $user->role = $request->button;
+            $user->role = $request->role;
             $user->save();
             return redirect('/');
         }
