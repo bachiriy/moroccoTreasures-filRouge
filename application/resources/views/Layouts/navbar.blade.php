@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-lg border-b border-gray-200">
+<nav class="bg-white shadow-lg border-b border-red-800">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="{{ asset('storage/logo/Moroccan Heritage Marketplace logo.png') }}" class="h-8 rounded-full" alt="Moroccan Heritage Marketplace Logo" />
@@ -7,7 +7,7 @@
             @auth
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-8 h-8 rounded-full" src="{{ asset('storage/images/default_avatar.png') }}" alt="user photo">
+                    <img class="w-8 h-8 rounded-full" src="{{ Auth::user()->avatar === null ? asset('storage/images/default_avatar.png') : asset('storage/'. Auth::user()->avatar) }}" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow border border-gray-400" id="user-dropdown">
@@ -22,7 +22,7 @@
                         </li>
                         @endif
                         <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Settings</a>
+                            <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Profile</a>
                         </li>
                         <li>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Earnings</a>
@@ -58,7 +58,7 @@
                     <a href="/about" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0  {{ $page === 'About' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">About</a>
                 </li>
                 <li>
-                    <a href="/services" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 ">Services</a>
+                    <a href="/shop" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 ">Shop</a>
                 </li>
                 <li>
                     <a href="/pricing" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 ">Pricing</a>
