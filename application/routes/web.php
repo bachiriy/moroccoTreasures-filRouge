@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPWController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckIfUserAdmin;
 use Illuminate\Support\Facades\Route;
 
@@ -45,6 +46,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
     // dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(CheckIfUserAdmin::class);
+    // user
+    Route::get('/profile', [UserController::class , 'index']);
+    Route::put('/user/general-update', [UserController::class, 'gn_update']);
+    Route::put('/user/password-update', [UserController::class, 'pw_update']);
 });
 
 Route::get('/about', function () {
