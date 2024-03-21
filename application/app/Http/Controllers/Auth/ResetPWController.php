@@ -14,7 +14,7 @@ class ResetPWController extends Controller
     public function index($token)
     {
         $email = request()->input('email');
-        return view('Pages.Auth.reset_pw', compact('email', 'token'));
+        return view('Pages.Auth.reset_pw', ['page' => 'Reset Password'], compact('email', 'token'));
     }
 
 
