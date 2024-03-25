@@ -23,7 +23,7 @@
                     From traditional Moroccan pottery to handcrafted textiles, explore our diverse range of products sourced directly from artisans across Morocco. Join us in preserving Moroccan heritage through every purchase.
                 </p>
             </div>
-            <button class="text-sky-950 uppercase py-3 text-base px-10 border border-sky-950 hover:bg-sky-950 hover:bg-opacity-10">Shop Now</button>
+            <a href="/shop" class="text-sky-950 uppercase py-3 text-base px-10 border border-sky-950 hover:bg-sky-950 hover:bg-opacity-10">Shop Now</a>
         </div>
     </div>
     <div class="py-12 relative overflow-hidden bg-white">
