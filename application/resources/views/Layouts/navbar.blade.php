@@ -58,7 +58,7 @@
                     <a href="/about" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0  {{ $page === 'About' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">About</a>
                 </li>
                 <li>
-                    <a href="/shop" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 ">Shop</a>
+                    <a href="/shop" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 {{ $page === 'Shop' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">Shop</a>
                 </li>
                 <li>
                     <a href="/pricing" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 ">Pricing</a>
