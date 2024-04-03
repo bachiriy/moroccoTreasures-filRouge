@@ -17,8 +17,6 @@ class UserController extends Controller
 
     public function gn_update(Request $request)
     {
-//        dd();
-
         $request->validate([
             'name' => 'string|min:4|max:30',
             'avatar' => 'image|max:5000',

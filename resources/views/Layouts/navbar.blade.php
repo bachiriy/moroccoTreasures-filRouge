@@ -1,7 +1,7 @@
 <nav class="bg-white shadow-lg border-b border-red-800">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img src="{{ asset('storage/logo/Moroccan Heritage Marketplace logo.png') }}" class="h-8 rounded-full" alt="Moroccan Heritage Marketplace Logo" />
+            <img src="{{ asset('storage/x.png') }}" class="h-8 rounded-full" alt="Moroccan Heritage Marketplace Logo" />
         </a>
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             @auth
@@ -27,6 +27,12 @@
                         <li>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Earnings</a>
                         </li>
+                        <li>
+                            <a href="/products/create" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
+                                Create Product
+                            </a>
+                        </li>
+
                         <li>
                             <form action="/logout" method="POST" class="">
                                 @csrf
@@ -61,10 +67,10 @@
                     <a href="/shop" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 {{ $page === 'Shop' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">Shop</a>
                 </li>
                 <li>
-                    <a href="/pricing" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 ">Pricing</a>
+                    <a href="/products" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 {{ $page === 'My Products' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">My Products</a>
                 </li>
                 <li>
-                    <a href="/contact" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 ">Contact</a>
+                    <a href="/contact" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 {{ $page === 'Contact' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">Contact</a>
                 </li>
             </ul>
         </div>

@@ -22,7 +22,7 @@ class RegisterController extends Controller
             'name' => 'required|string|min:4|max:30',
             'email' => 'required|email|unique:users|max:255|ends_with:gmail.com',
             'password' => 'required|string|min:8',
-            'role' => 'required'
+            'role' => count(User::all()) !== 0 ? 'required' : ''
         ]);
         $usrCount = count(User::all());
         $user = User::create([

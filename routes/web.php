@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPWController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckIfUserAdmin;
@@ -40,10 +41,10 @@ Route::middleware('guest')->group(function () {
     // reset pw
     Route::get('/reset-password/{token}', [ResetPWController::class, 'index'])->name('password.reset');
     Route::post('/reset-password', [ResetPWController::class, 'reset_pw'])->name('reset_pw');
-
-    // shop
-    Route::get('/shop', [ShopController::class, 'index']);
 });
+
+// shop
+Route::get('/shop', [ShopController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     // logout
@@ -54,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class , 'index']);
     Route::put('/user/general-update', [UserController::class, 'gn_update']);
     Route::put('/user/password-update', [UserController::class, 'pw_update']);
+
 });
 
 Route::get('/about', function () {

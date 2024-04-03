@@ -35,6 +35,7 @@
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                @if(count(\App\Models\User::all()) > 0)
                 <!-- Role Selection -->
                 <div class="mb-4">
                     <label class="block text-gray-600">Register as:</label>
@@ -48,6 +49,7 @@
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
+                @endif
                 <!-- Register Button -->
                 <button type="submit" class="bg-red-800 hover:bg-red-600 text-white font-semibold rounded-md py-2 px-4 w-full">Register</button>
             </form>
