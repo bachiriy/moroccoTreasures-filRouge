@@ -56,6 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/user/general-update', [UserController::class, 'gn_update']);
     Route::put('/user/password-update', [UserController::class, 'pw_update']);
 
+    // products
+    Route::resource('products',ProductController::class);
+    Route::get('/products/create', [ProductController::class, 'create']);
 });
 
 Route::get('/about', function () {
