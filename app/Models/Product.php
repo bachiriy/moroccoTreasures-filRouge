@@ -23,6 +23,6 @@ class Product extends Model
 
     public function media()
     {
-        $this->hasMany(Media::class);
+        return $this->hasMany(Media::class);
     }
 }
