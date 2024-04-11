@@ -11,8 +11,9 @@
     <div class="bg-white p-4 rounded w-10/12 lg:w-6/12 mx-auto my-8 border border-red-800">
         <h1 class="text-xl font-bold text-red-900">Creating Product Form</h1>
         <hr class="bg-red-800 p-[0.4px] mt-2">
-        <form action="/products" method="POST" enctype="multipart/form-data">
+        <form action="/products/12" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="mt-6">
                 <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
                 <input type="text" name="name" id="name"
@@ -47,7 +48,7 @@
                     @endforeach
                 </select>
             </div>
-            @error('category')
+            @error('category_id')
             <p class="text-red-400 text-sm">{{$message}}</p>
             @enderror
 
@@ -56,7 +57,7 @@
                 <input type="file" name="product_images[]" multiple
                        class="mt-1 p-2 block w-full border focus:ring-indigo-500 focus:border-indigo-500 rounded-md">
             </div>
-            @error('product_image')
+            @error('product_images')
             <p class="text-red-400 text-sm">{{$message}}</p>
             @enderror
 
