@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
+use App\Models\SellerRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
@@ -17,7 +20,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-//        dd($request->role);
+    //    dd($request->role);
         $request->validate([
             'name' => 'required|string|min:4|max:30',
             'email' => 'required|email|unique:users|max:255|ends_with:gmail.com',
@@ -31,15 +34,25 @@ class RegisterController extends Controller
             'password' => Hash::make($request->input('password')),
         ]);
         Auth::login($user);
-
+        Notification::create([
+            'title' => 'Welcome',
+            'description' => $request->role === 'seller' ? 'You are now a member of the MHM, wait for Admin approval so you can start posting products' : ($usrCount === 0 ? 'You are the Admin of the website, you have control over the whole platform, enjoy it sir.' : 'You are now a member of the MHM, enjoy the shop.'),
+            'user_id' => $user->id,
+        ]);
         if ($usrCount === 0) {
             $user->role = 'Admin';
             $user->save();
             return redirect('/dashboard');
-        } else {
-            $user->role = $request->role;
+        } else  if ($request->role === 'seller') {
+            $user->role = 'Buyer';
+            $user->save();
+            SellerRequest::create(['user_id' => $user->id]);
+            return redirect('/');
+        } else if ($request->role === 'buyer') {
+            $user->role = 'Buyer';
             $user->save();
             return redirect('/');
         }
+        return 'error';
     }
 }
