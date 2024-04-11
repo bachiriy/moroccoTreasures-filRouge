@@ -15,7 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('Pages.Products.index', ['page' => 'My Products']);
+        $my_products = Product::where('user_id', Auth::id())->get();
+        return view('Pages.Products.index', ['page' => 'My Products', 'my_products' => $my_products]);
     }
 
     public function create()
@@ -28,16 +29,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-//        dd($request->file('product_image'));
-        $data = $request->validate([
-            'product_images' => 'required|array',
-            'product_images.*' => 'image',
-            'name' => 'required|string|min:5|max:250',
-            'description' => 'required|string|min:5|max:1000',
-            'price' => 'required|integer|min:0|max:100000',
-            'category_id' => 'required|integer|exists:categories,id',
-        ]);
-
         $product = Product::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -46,6 +37,9 @@ class ProductController extends Controller
             'user_id' => Auth::id()
         ]);
 //        dd($product);
+        if(count($request->file('product_images')) > 4){
+            return back()->withErrors('product_images', 'Can not upload more than 4 images for the product.');
+        }
         foreach ($request->file('product_images') as $index => $item) {
             $path = $request->product_images[$index]->store('products/' . $product->id , 'public');
             Media::create([
@@ -60,8 +54,8 @@ class ProductController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        return 'one product';
+    { 
+        return Product::find($id) ?? '<h1>404</h1>';
     }
 
     /**
@@ -69,14 +63,33 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = Product::find($id);
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->category_id = $request->category_id;
+        $product->save();
+        if($request->has('product_images')) {
+            Media::where('product_id', $id)->delete();
+            Storage::disk('public')->deleteDirectory('products/'.$id);
+            foreach($request->product_images as $product_image){
+                $path = $product_image->store('products/'. $id, 'public');
+                Media::create(['name' => $path, 'product_id' => $id]);
+            }
+        }
+        return back()->with('success', 'Product updated successfully.');
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        if(Product::find($id) === null){
+            return back()->with('error', 'Product not found.');
+        }
+        Storage::disk('public')->deleteDirectory('products/'.$id);
+        
+        Product::destroy($id);
+        back()->with('success', 'Product deleted.');
     }
 }
