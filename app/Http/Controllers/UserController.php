@@ -7,12 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class UserController extends Controller
 {
     public function index()
     {
-        return view('Pages.user_profile', ['page' => 'User Profile']);
+        return view('Pages.user_profile', ['page' => 'Profile']);
     }
 
     public function gn_update(Request $request)
@@ -29,7 +30,9 @@ class UserController extends Controller
         ]);
         $user = Auth::user();
         if ($request->avatar !== null) {
-            Storage::disk('public')->delete(Auth::user()->avatar);
+            if(Auth::user()->avatar !== null){
+                Storage::disk('public')->delete(Auth::user()->avatar);
+            }
             $path = $request->file('avatar')->store('avatars', 'public');
             $user->avatar  = $path;
         }
