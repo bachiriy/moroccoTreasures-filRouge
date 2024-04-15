@@ -330,4 +330,6 @@
             </div>
         </footer>
     </div>
+
+    @include('Layouts.footer')
 @endsection
