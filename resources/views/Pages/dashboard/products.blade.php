@@ -4,7 +4,7 @@
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
             <div class="mt-8 text-center">
-                <img src="{{ Auth::user()->avatar !== null ? asset('storage/' . Auth::user()->avatar) : asset('storage/images/default_avatar.png') }}" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28">
+                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28">
                 <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">{{ Auth::user()->name }}</h5>
                 <span class="hidden text-gray-400 lg:block">{{ Auth::user()->role }}</span>
             </div>
@@ -94,22 +94,33 @@
                         <i class="fas fa-bell text-lg leading-none"></i>
                     </button>
                     <ul role="menu" data-popover="notifications-menu" data-popover-placement="bottom" style="z-index: 1000" class="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
-                        @foreach(\Illuminate\Support\Facades\Auth::user()->notifications as $notification)
-                            <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
-                                <div class="flex flex-col gap-1">
-                                    <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
-                                        <span class="font-bold text-blue-gray-900">{{ $notification->title . ' ' . Auth::user()->name }},</span>
-                                        {{ $notification->description }}
-                                    </p>
-                                    <p class="flex items-center gap-1 font-sans text-xs font-light text-gray-600 antialiased">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-3 w-3">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        {{ $notification->created_at->diff(now())->h > 0 ? $notification->created_at->diff(now())->format('%h h') : $notification->created_at->diff(now())->format('%i min') }}
-                                    </p>
-                                </div>
-                            </button>
-                        @endforeach
+                        @if(count(\App\Models\Notification::where('user_id', Auth::id())->get() ) > 0)
+                            @foreach(\Illuminate\Support\Facades\Auth::user()->notifications as $notification)
+                                <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
+                                    <div class="flex flex-col gap-1">
+                                        <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
+                                            <span class="font-bold text-blue-gray-900">{{ $notification->title . ' ' . Auth::user()->name }},</span>
+                                            {{ $notification->description }}
+                                        </p>
+                                        <p class="flex items-center gap-1 font-sans text-xs font-light text-gray-600 antialiased">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-3 w-3">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            {{ $notification->created_at->diff(now())->h > 0 ? $notification->created_at->diff(now())->format('%h h') : $notification->created_at->diff(now())->format('%i min') }}
+                                        </p>
+                                    </div>
+                                </button>
+                            @endforeach
+                            <form action="/notifications" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 border border-red-500/25 p-1 rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                                    Clear All
+                                </button>
+                            </form>
+                        @else
+                            no notifications.
+                        @endif
                     </ul>
                 </div>
             </div>

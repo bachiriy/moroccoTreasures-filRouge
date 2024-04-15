@@ -4,7 +4,7 @@
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
             <div class="mt-8 text-center">
-                <img src="{{ Auth::user()->avatar !== null ? asset('storage/' . Auth::user()->avatar) : asset('storage/images/default_avatar.png') }}" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28">
+                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28">
                 <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">{{ Auth::user()->name }}</h5>
                 <span class="hidden text-gray-400 lg:block">{{ Auth::user()->role }}</span>
             </div>
@@ -79,21 +79,37 @@
             </button>
         </form>
     </aside>
-    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden">
         <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
             <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
-                <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">Dashboard</h5>
+                <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">Users</h5>
                 <button class="w-12 h-16 -mr-2 border-r lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
+                @if(session('success'))
+                    <p class="msg text-green-500 transition-all">{{ session('success') }}</p>
+                @elseif(session('error'))
+                    <p class="msg text-red-500 transition-all">{{ session('error') }}</p>
+                @endif
+                <script>
+                    let msgs = document.querySelectorAll('.msg')
+                    window.onload = function () {
+                        setInterval(() => {
+                            msgs.forEach((elm) => {
+                                elm.innerHTML = '';
+                            });
+                        }, 3000);
+                    };
+                </script>
                 <div class="flex space-x-4">
                     <button class="mx-4 middle none center flex items-center justify-center rounded-lg p-3 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-dark="true" data-popover-target="notifications-menu">
                         <i class="fas fa-bell text-lg leading-none"></i>
                     </button>
                     <ul role="menu" data-popover="notifications-menu" data-popover-placement="bottom" style="z-index: 1000" class="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
+                        @if(count(\App\Models\Notification::where('user_id', Auth::id())->get() ) > 0)
                         @foreach(\Illuminate\Support\Facades\Auth::user()->notifications as $notification)
                             <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
                                 <div class="flex flex-col gap-1">
@@ -110,13 +126,132 @@
                                 </div>
                             </button>
                         @endforeach
+                        <form action="/notifications" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-red-500 border border-red-500/25 p-1 rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                                Clear All
+                            </button>
+                        </form>
+                        @else
+                            no notifications.
+                        @endif
                     </ul>
                 </div>
             </div>
         </div>
 
-        USERS
+        <!-- users table -->
+        <div class="flex flex-col">
+            <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full">
+                            <thead class="bg-white border-b">
+                            <tr>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    #
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Avatar
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Name
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Email
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Role
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                                    Handle
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach(App\Models\User::all() as $user)
+                                <tr class="bg-gray-100 border-b hover:bg-gray-500/15">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $user->id }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        <img src="{{ asset('storage/' . $user->avatar ) }}" class="h-8 rounded-full w-8" alt="">
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{ $user->name }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{ $user->email }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{ $user->role }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 flex justify-center font-light px-6 py-4 whitespace-nowrap">
+                                        <form action="/dashboard/users/{{ $user->id }}" method="post" class="w-fit">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="text-red-500 mx-1 hover:underline" onclick="confirm('Are you sure you want to delete this user ?')">Delete</button>
+                                        </form>
+                                        <button onclick="selectOption('{{$user->role}}', {{ $user->id }})" data-modal-target="update-role-modal" data-modal-toggle="update-role-modal" type="button" class="text-blue-600 mx-2 hover:underline">Update Role</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- update role modal -->
+    <div id="update-role-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Update User Role
+                    </h3>
+                    <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="update-role-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5">
+                    <form id="update-role-form" class="space-y-4" action="" method="post">
+                        @csrf
+                        @method('PUT')
+                        <label for="roles" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select User new Role</label>
+                        <select name="new_role" id="roles" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected disabled>Choose a Role</option>
+                            <option id="Seller" value="Seller">Seller</option>
+                            <option id="Buyer" value="Buyer">Buyer</option>
+                            <option id="Admin" value="Admin">Admin</option>
+                        </select>
+                        <p class="text-white text-xs border border-white p-2 opacity-70 rounded-lg">Notice that giving someone <span class="opacity-100 text-blue-500">Admin</span> role will make them have the same control as <span class="text-blue-500 opacity-100">Super Admin</span> over the website, except they can not delete or update the Super Admin user</p>
+                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update User</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function selectOption(userRole, userId) {
+            let op = document.getElementById(`${userRole}`);
+            if (op !== null) {
+                op.selected = true;
+            }
+            let form = document.getElementById('update-role-form');
+            form.action = `/dashboard/users/${userId}`;
+        }
+    </script>
+    <!-- end modal -->
 
     <script type="module" src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"></script>
     <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
