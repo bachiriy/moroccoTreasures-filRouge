@@ -8,25 +8,25 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('Pages.dashboard.index', ['page' => 'Dashboard - Index']);
+        return view('Pages.Dashboard.index', ['page' => 'Dashboard - Index']);
     }
 
     public function categories()
     {
-        return view('Pages.dashboard.categories', ['page' => 'Dashboard - Categories']);
+        return view('Pages.Dashboard.categories', ['page' => 'Dashboard - Categories']);
     }
 
     public function users()
     {
-        return view('Pages.dashboard.users', ['page' => 'Dashboard - Users']);
+        return view('Pages.Dashboard.users', ['page' => 'Dashboard - Users']);
     }
 
     public function products()
     {
-        return view('Pages.dashboard.products', ['page' => 'Dashboard - Products']);
+        return view('Pages.Dashboard.products', ['page' => 'Dashboard - Products']);
     }
     public function requests()
     {
-        return view('Pages.dashboard.requests', ['page' => 'Dashboard - Requests']);
+        return view('Pages.Dashboard.requests', ['page' => 'Dashboard - Requests']);
     }
 }
