@@ -19,7 +19,7 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials, $request->filled('remember'))) {
-            if (Auth::user()->role === 'Admin') {
+            if (Auth::user()->role === 'Admin' || Auth::user()->role === 'Super_Admin') {
                 return redirect('/dashboard');
             }
             $request->session()->regenerate();
