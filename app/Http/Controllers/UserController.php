@@ -30,7 +30,7 @@ class UserController extends Controller
         ]);
         $user = Auth::user();
         if ($request->avatar !== null) {
-            if(Auth::user()->avatar !== null){
+            if(Auth::user()->avatar !== 'images/default_avatar.png'){
                 Storage::disk('public')->delete(Auth::user()->avatar);
             }
             $path = $request->file('avatar')->store('avatars', 'public');
@@ -62,5 +62,27 @@ class UserController extends Controller
         ]);
 
         return back()->with('success', 'Password updated successfully.');
+    }
+
+    public function update_role(Request $request)
+    {
+        $user = User::find($request->user_id);
+        if ($user->role === 'Super_Admin') {
+            return back()->with('error', 'Can not update Super Admin Role');
+        }
+        $user->role = $request->new_role;
+        $user->save();
+        return back()->with('success', 'User role updated successfully.');
+    }
+
+    public function destroy_user(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if ($user->role === 'Super_Admin') {
+            return back()->with('error', 'Can not delete Admin users deleted.');
+        }
+        $user->delete();
+        return back()->with('success', 'User was deleted successfully.');
     }
 }
