@@ -34,7 +34,7 @@
                         @enderror
                         <div class="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
                             <img id="avatarPreview" class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-red-800"
-                                 src="{{ Auth::user()->avatar === null ? asset('storage/images/default_avatar.png') : asset('storage/' . Auth::user()->avatar) }}"
+                                 src="{{ asset('storage/'. \Illuminate\Support\Facades\Auth::user()->avatar) }}"
                                  alt="Bordered avatar">
                             <div class="flex flex-col space-y-5 sm:ml-8">
                                 <input type="file" name="avatar" id="avatarInput" class="hidden" accept="image/*" onchange="previewImage(event)">
