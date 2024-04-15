@@ -11,8 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SellerRequestController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\CheckIfUserAdmin;
-use App\Http\Middleware\CheckIfUserSeller;
+use App\Http\Middleware\checkRole;
 use App\Http\Middleware\validateProduct;
 use Illuminate\Support\Facades\Route;
 
@@ -54,13 +53,16 @@ Route::middleware('auth')->group(function () {
     // logout
     Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
     // Admin
-    Route::middleware(CheckIfUserAdmin::class)->group(function () {
+    Route::middleware(checkRole::class . ':Super_Admin,Admin')->group(function () {
         // dashboard
         Route::get('/dashboard', [DashboardController::class, 'index']);
         Route::get('/dashboard/categories', [DashboardController::class, 'categories']);
         Route::get('/dashboard/users', [DashboardController::class, 'users']);
         Route::get('/dashboard/products', [DashboardController::class, 'products']);
         Route::get('/dashboard/requests', [DashboardController::class, 'requests']);
+        // mng users
+        Route::put('/dashboard/users/{user_id}', [UserController::class, 'update_role']);
+        Route::delete('/dashboard/users/{user_id}', [UserController::class, 'destroy_user']);
         // seller requests
         Route::post('/dashboard/requests/{user_id}/approve', [SellerRequestController::class, 'approve']);
         Route::post('/dashboard/requests/{user_id}/deny', [SellerRequestController::class, 'deny']);
@@ -71,10 +73,9 @@ Route::middleware('auth')->group(function () {
     Route::put('/user/password-update', [UserController::class, 'pw_update']);
 
     // products
-    Route::middleware(CheckIfUserSeller::class)->group(function(){
+    Route::middleware(checkRole::class . ':Seller,Super_Admin,Admin,Buyer')->group(function(){
         Route::resource('products',ProductController::class)->middleware(validateProduct::class);
         Route::get('/products/create', [ProductController::class, 'create']);
-
     });
 
     // notifications
@@ -82,5 +83,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/about', function () {
-    return view('about', ['page' => 'About']);
+    return view('Pages.about', ['page' => 'About']);
 });
