@@ -39,8 +39,10 @@ class RegisterController extends Controller
             'description' => $request->role === 'seller' ? 'You are now a member of the MHM, wait for Admin approval so you can start posting products' : ($usrCount === 0 ? 'You are the Admin of the website, you have control over the whole platform, enjoy it sir.' : 'You are now a member of the MHM, enjoy the shop.'),
             'user_id' => $user->id,
         ]);
+        $user->avatar = 'images/default_avatar.png';
+        $user->save();
         if ($usrCount === 0) {
-            $user->role = 'Admin';
+            $user->role = 'Super_Admin';
             $user->save();
             return redirect('/dashboard');
         } else  if ($request->role === 'seller') {
