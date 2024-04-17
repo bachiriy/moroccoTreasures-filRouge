@@ -5,13 +5,16 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPWController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SellerRequestController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\checkRole;
+use App\Http\Middleware\ValidateCategory;
 use App\Http\Middleware\validateProduct;
 use Illuminate\Support\Facades\Route;
 
@@ -56,7 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware(checkRole::class . ':Super_Admin,Admin')->group(function () {
         // dashboard
         Route::get('/dashboard', [DashboardController::class, 'index']);
-        Route::get('/dashboard/categories', [DashboardController::class, 'categories']);
         Route::get('/dashboard/users', [DashboardController::class, 'users']);
         Route::get('/dashboard/products', [DashboardController::class, 'products']);
         Route::get('/dashboard/requests', [DashboardController::class, 'requests']);
@@ -66,6 +68,8 @@ Route::middleware('auth')->group(function () {
         // seller requests
         Route::post('/dashboard/requests/{user_id}/approve', [SellerRequestController::class, 'approve']);
         Route::post('/dashboard/requests/{user_id}/deny', [SellerRequestController::class, 'deny']);
+        // mng categories
+        Route::resource('/dashboard/categories', CategoryController::class)->middleware(ValidateCategory::class);
     });
     // user
     Route::get('/profile', [UserController::class , 'index']);
@@ -73,15 +77,30 @@ Route::middleware('auth')->group(function () {
     Route::put('/user/password-update', [UserController::class, 'pw_update']);
 
     // products
-    Route::middleware(checkRole::class . ':Seller,Super_Admin,Admin,Buyer')->group(function(){
-        Route::resource('products',ProductController::class)->middleware(validateProduct::class);
+    Route::middleware(checkRole::class . ':Seller,Super_Admin,Admin')->group(function(){
+        Route::middleware(validateProduct::class)->group(function () {
+            Route::put('/products/{product_id}', [ProductController::class, 'update']);
+            Route::post('/products', [ProductController::class, 'store']);
+        });
+        Route::get('/products', [ProductController::class, 'index']);
         Route::get('/products/create', [ProductController::class, 'create']);
+        Route::delete('/products/{product_id}', [ProductController::class, 'destroy']);
+        Route::get('/products/{product_id}/edit', [ProductController::class, 'edit']);
     });
 
     // notifications
     Route::delete('/notifications', [NotificationController::class, 'clear_all']);
+
+    // reviews
+    Route::post('/create-review/{product_id}', [ReviewController::class, 'store']);
+    Route::delete('/remove-review/{review_id}', [ReviewController::class, 'destroy']);
 });
 
 Route::get('/about', function () {
     return view('Pages.about', ['page' => 'About']);
 });
+
+Route::get('/rate/{product_id}', [ReviewController::class, 'rate']);
+
+// product details
+Route::get('/products/{product_id}', [ProductController::class, 'show']);
