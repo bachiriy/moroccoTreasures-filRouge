@@ -9,11 +9,18 @@
         </div>
     @endif
     <div class="bg-white p-4 rounded w-10/12 lg:w-6/12 mx-auto my-8 border border-red-800">
-        <h1 class="text-xl font-bold text-red-900">Creating Product Form</h1>
+        <div class="flex justify-between">
+            <h1 class="text-xl font-bold text-red-900">Creating Product Form</h1>
+            <a href="/products" type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="create-product-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </a>
+        </div>
         <hr class="bg-red-800 p-[0.4px] mt-2">
-        <form action="/products/12" method="POST" enctype="multipart/form-data">
+        <form action="/products" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT')
             <div class="mt-6">
                 <label for="name" class="block text-sm font-medium text-gray-700">Product Name</label>
                 <input type="text" name="name" id="name"
@@ -53,7 +60,7 @@
             @enderror
 
             <div class="mt-6">
-                <label for="product_images" class="block text-sm font-medium text-gray-700">Choose Product Image</label>
+                <label for="product_images" class="block text-sm font-medium text-gray-700">Choose Product Image <span class="text-xs">( can add up to 4 images )</span></label>
                 <input type="file" name="product_images[]" multiple
                        class="mt-1 p-2 block w-full border focus:ring-indigo-500 focus:border-indigo-500 rounded-md">
             </div>
