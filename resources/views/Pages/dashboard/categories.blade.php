@@ -4,9 +4,11 @@
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
             <div class="mt-8 text-center">
-                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28">
-                <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">{{ Auth::user()->name }}</h5>
-                <span class="hidden text-gray-400 lg:block">{{ Auth::user()->role }}</span>
+                <a href="/profile">
+                    <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28">
+                    <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">{{ Auth::user()->name }}</h5>
+                    <span class="hidden text-gray-400 lg:block">{{ Auth::user()->role }}</span>
+                </a>
             </div>
 
             <ul class="space-y-2 tracking-wide mt-8">
@@ -79,7 +81,7 @@
             </button>
         </form>
     </aside>
-    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
+    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden">
         <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
             <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
                 <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">Categories</h5>
@@ -88,6 +90,28 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
+                @if(session('success'))
+                    <p class="msg text-green-500 transition-all border border-green-500 px-4 py-1 rounded-sm">{{ session('success') }}</p>
+                @elseif(session('error'))
+                    <p class="msg text-red-500 transition-all border border-red-500 px-4 py-1 rounded-sm">{{ session('error') }}</p>
+                @endif
+                @error('name')
+                    <p class="msg text-red-500 transition-all border border-red-500 px-4 py-1 rounded-sm">{{ $message }}</p>
+                @enderror
+                @error('description')
+                    <p class="msg text-red-500 transition-all border border-red-500 px-4 py-1 rounded-sm">{{ $message }}</p>
+                @enderror
+                <script>
+                    let msgs = document.querySelectorAll('.msg')
+                    window.onload = function () {
+                        setInterval(() => {
+                            msgs.forEach((elm) => {
+                                elm.innerHTML = '';
+                                elm.style.border = 'none';
+                            });
+                        }, 3000);
+                    };
+                </script>
                 <div class="flex space-x-4">
                     <button class="mx-4 middle none center flex items-center justify-center rounded-lg p-3 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-dark="true" data-popover-target="notifications-menu">
@@ -95,7 +119,7 @@
                     </button>
                     <ul role="menu" data-popover="notifications-menu" data-popover-placement="bottom" style="z-index: 1000" class="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
                         @if(count(\App\Models\Notification::where('user_id', Auth::id())->get() ) > 0)
-                        @foreach(\Illuminate\Support\Facades\Auth::user()->notifications as $notification)
+                        @foreach(\Illuminate\Support\Facades\Auth::user()->notifications()->orderBy('created_at', 'desc')->get() as $notification)
                             <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
                                 <div class="flex flex-col gap-1">
                                     <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
@@ -126,8 +150,172 @@
             </div>
         </div>
 
-        CATEGORIES
+        <div class="flex flex-col">
+            <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <button
+                data-modal-target="create-category-modal"
+                data-modal-toggle="create-category-modal"
+                class="fixed right-8 bottom-6 text-white bg-green-600 p-2 rounded-lg border border-green-300 hover:opacity-80 shadow-lg"
+            >
+                Create Category
+            </button>
+                    <div class="overflow-hidden">
+                        <table class="min-w-full">
+                            <thead class="bg-white border-b">
+                            <tr>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    #
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Name
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Description
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                                    Handle
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach(\App\Models\Category::all() as $category)
+                                <tr class="bg-gray-100 border-b hover:bg-gray-500/15">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $category->id }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{ $category->name }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 w-[500px] whitespace-pre-line">
+                                        <p onmouseenter="showDesc(`{{$category->description}}`, this)" onmouseleave="hideDesc(`{{substr($category->description, 0, 50) . '...'}}`, this)">
+                                            {{ substr($category->description, 0, 50) . '...' }}
+                                        </p>
+
+                                    </td>
+                                    <script>
+                                        function showDesc(desc, btn) {
+                                            btn.innerHTML = desc;
+                                        }
+
+                                        function hideDesc(desc, btn) {
+                                            btn.innerHTML = desc;
+                                        }
+                                    </script>
+                                    <td class="text-sm text-gray-900 flex justify-center font-light px-6 py-4 whitespace-nowrap">
+                                        <button
+                                            data-modal-target="update-category-modal"
+                                            data-modal-toggle="update-category-modal"
+                                            class="text-blue-500 mx-2 hover:underline"
+                                            onclick="showPrevData(`{{$category->name}}`, `{{$category->description}}`, {{$category->id }})"
+                                        >
+                                            Update Category
+                                        </button>
+                                        <form action="/dashboard/categories/{{$category->id}}" method="post" class="w-fit">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button  class="text-red-500 mx-2 hover:underline" onclick="confirm('Are you sure you want to delete this category ?')">Delete Category</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    @if(count(\App\Models\Category::all()) === 0)
+                        <p class="m-10">No categories available.</p>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- update category modal -->
+    <div id="update-category-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Update Category
+                    </h3>
+                    <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="update-category-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5">
+                    <form id="update-category-form" class="space-y-4" action="" method="post">
+                        @csrf
+                        @method('PUT')
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category Name</label>
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        </div>
+                        <div class="col-span-2">
+                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category Description</label>
+                            <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showPrevData(prevName, prevDesc, categoryId) {
+            let name = document.getElementById('name');
+            let description = document.getElementById('description');
+            let form = document.getElementById('update-category-form');
+
+            name.value = prevName;
+            description.value = prevDesc;
+            form.action = `/dashboard/categories/${categoryId}`;
+        }
+    </script>
+    <!-- end update category modal -->
+
+
+    <!-- create category modal -->
+    <div id="create-category-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Create Category
+                    </h3>
+                    <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="create-category-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5">
+                    <form id="update-category-form" class="space-y-4" action="/dashboard/categories" method="post">
+                        @csrf
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category Name</label>
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+                        </div>
+                        <div class="col-span-2">
+                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category Description</label>
+                            <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-green-500 focus:border-green-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Create Category</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end create category modal -->
 
     <script type="module" src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"></script>
     <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
