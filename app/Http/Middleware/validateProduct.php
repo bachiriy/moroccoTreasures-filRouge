@@ -18,11 +18,11 @@ class validateProduct
     {
         if($request->hasAny(['product_images', 'name', 'description', 'price', 'category_id'])){
             $request->validate([
-                'product_images' => 'required|array|max:4',
+                'product_images' => $request->method() === 'POST' ? 'required|array|max:4' : 'array|max:4',
                 'product_images.*' => 'image',
                 'name' => 'required|string|min:5|max:250',
                 'description' => 'required|string|min:5|max:1000',
-                'price' => 'required|integer|min:0|max:10000000',
+                'price' => 'required|numeric|gt:0|min:0|max:10000000',
                 'category_id' => 'required|integer|exists:categories,id',
             ]);
         }
