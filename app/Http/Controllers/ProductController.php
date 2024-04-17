@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Media;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -15,13 +16,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $my_products = Product::where('user_id', Auth::id())->get();
+        $my_products = Product::where('user_id', Auth::id())->with(['category', 'media'])->get();
         return view('Pages.Products.index', ['page' => 'My Products', 'my_products' => $my_products]);
     }
 
     public function create()
     {
-        return view('Pages.Products.create', ['page' => 'Create Product']);
+//        dd('ok');
+        return view('Pages.Products.create', ['page' => 'My Products']);
     }
 
     /**
@@ -50,12 +52,26 @@ class ProductController extends Controller
         return back()->with('success', 'Product created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    public function edit($id)
+    {
+        $product = Product::where('id', $id)->with(['category', 'media'])->where('user_id', Auth::id())->first();
+        return $product ? view('Pages.Products.edit', ['page' => 'Products - Update'], compact('product')) : abort(404);
+    }
+
     public function show(string $id)
-    { 
-        return Product::find($id) ?? '<h1>404</h1>';
+    {
+//        dd('ok');
+        $product = Product::where('id', $id)->with(['category', 'media', 'user'])->first();
+        if ($product === null) {
+            abort(404);
+        }
+        $reviews = Review::with('user', 'product')->where('product_id', $id)->get();
+        $similar_products = Product::where('category_id', $product->category_id)->with('media')->take(3)->get();
+        $review_rate = ReviewController::rate($product->id);
+        $rate = $review_rate['rate'];
+        $total_reviews = $review_rate['total_reviews'];
+
+        return $product ? view('Pages.Products.show', ['page' => 'Shop'], compact('product', 'reviews', 'similar_products', 'rate', 'total_reviews')) : abort(404);
     }
 
     /**
@@ -88,8 +104,8 @@ class ProductController extends Controller
             return back()->with('error', 'Product not found.');
         }
         Storage::disk('public')->deleteDirectory('products/'.$id);
-        
+
         Product::destroy($id);
-        back()->with('success', 'Product deleted.');
+        return back()->with('success', 'Product deleted.');
     }
 }
