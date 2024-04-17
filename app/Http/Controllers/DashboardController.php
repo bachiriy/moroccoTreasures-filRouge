@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\SellerRequest;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,10 +13,6 @@ class DashboardController extends Controller
         return view('Pages.Dashboard.index', ['page' => 'Dashboard - Index']);
     }
 
-    public function categories()
-    {
-        return view('Pages.Dashboard.categories', ['page' => 'Dashboard - Categories']);
-    }
 
     public function users()
     {
@@ -23,7 +21,9 @@ class DashboardController extends Controller
 
     public function products()
     {
-        return view('Pages.Dashboard.products', ['page' => 'Dashboard - Products']);
+        $products = Product::with(['category', 'media', 'user', 'reviews'])->get();
+
+        return view('Pages.Dashboard.products', ['page' => 'Dashboard - Products'], compact('products'));
     }
     public function requests()
     {
