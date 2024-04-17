@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Notification;
 use App\Models\SellerRequest;
+use App\Models\Review;
 
 class User extends Authenticatable
 {
@@ -54,5 +55,9 @@ class User extends Authenticatable
     
     public function notifications () {
         return $this->hasMany(Notification::class);
+    }
+
+    public function reviews () {
+        return $this->hasMany(Review::class);
     }
 }
