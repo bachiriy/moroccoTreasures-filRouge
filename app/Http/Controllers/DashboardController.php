@@ -27,6 +27,8 @@ class DashboardController extends Controller
     }
     public function requests()
     {
-        return view('Pages.Dashboard.requests', ['page' => 'Dashboard - Requests']);
+        $requests = SellerRequest::with('user')->get();
+//        dd($requests);
+        return view('Pages.Dashboard.requests', ['page' => 'Dashboard - Requests'], compact('requests'));
     }
 }
