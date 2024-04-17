@@ -80,7 +80,7 @@ class UserController extends Controller
         $user = User::find($request->user_id);
 
         if ($user->role === 'Super_Admin') {
-            return back()->with('error', 'Can not delete Admin users deleted.');
+            return back()->with('error', 'Can not delete Super Admin users.');
         }
         $user->delete();
         return back()->with('success', 'User was deleted successfully.');
