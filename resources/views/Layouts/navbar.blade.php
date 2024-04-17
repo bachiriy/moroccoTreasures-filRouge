@@ -10,7 +10,7 @@
                 </button>
                 <ul role="menu" data-popover="notifications-menu" data-popover-placement="bottom" style="z-index: 1000" class="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
                 @if(count(\App\Models\Notification::all()) > 0)
-                    @foreach(\Illuminate\Support\Facades\Auth::user()->notifications as $notification)
+                    @foreach(\Illuminate\Support\Facades\Auth::user()->notifications()->orderBy('created_at', 'desc')->get() as $notification)
                         <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
                             <div class="flex flex-col gap-1">
                                 <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
@@ -39,7 +39,7 @@
                 </ul>
                 <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
-                    <img class="w-8 h-8 rounded-full" src="storage/{{ Auth::user()->avatar }}" alt="user photo">
+                    <img class="w-8 h-8 rounded-full" src="{{ asset('storage/'.Auth::user()->avatar) }}" alt="user photo">
                 </button>
                 <!-- Dropdown menu -->
                 <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow border border-gray-400" id="user-dropdown">
@@ -102,9 +102,11 @@
                     <a href="/contact" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 {{ $page === 'Contact' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">Contact</a>
                 </li>
                 @auth
+                    @if(in_array(Auth::user()->role, ['Super_Admin', 'Admin', 'Seller']))
                 <li>
                     <a href="/products" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 {{ $page === 'My Products' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">My Products</a>
                 </li>
+                    @endif
                 <li>
                     <a href="/profile" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 {{ $page === 'Profile' ? 'text-white bg-red-800 md:text-red-800 md:bg-transparent hover:bg-red-500 md:underline' : '' }} ">My Profile</a>
                 </li>
