@@ -21,7 +21,7 @@ class DashboardController extends Controller
 
     public function products()
     {
-        $products = Product::with(['category', 'media', 'user', 'reviews'])->get();
+        $products = Product::with(['category', 'media', 'user'])->get();
 
         return view('Pages.Dashboard.products', ['page' => 'Dashboard - Products'], compact('products'));
     }
