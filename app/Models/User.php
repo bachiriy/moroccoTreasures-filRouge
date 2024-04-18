@@ -52,12 +52,17 @@ class User extends Authenticatable
     public function seller_request () {
         return $this->has(SellerRequest::class);
     }
-    
+
     public function notifications () {
         return $this->hasMany(Notification::class);
     }
 
     public function reviews () {
         return $this->hasMany(Review::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
     }
 }
