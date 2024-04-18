@@ -309,10 +309,20 @@
                     </div>
                 </div>
 
-                <form class="mt-10">
-
-                    <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-8 py-3 text-base font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Add to Cart</button>
-                    <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-8 py-3 text-base font-medium text-gray-500 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Buy it Now</button>
+                @if(\App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->where('product_id', $product->id)->get()->count() === 0)
+                <form class="mt-10" action="/cart/{{ $product->id }}" method="post">
+                    @csrf
+                    <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-8 py-3 text-base font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                        Add to Cart
+                    </button>
+                </form>
+                @else
+                    <p class="text-sm my-4">Already in Cart, <a href="/cart" class="text-blue-500 hover:underline">Check Cart</a> </p>
+                @endif
+                <form action="">
+                    <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-8 py-3 text-base font-medium text-gray-500 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                        Buy it Now
+                    </button>
                 </form>
             </div>
 
