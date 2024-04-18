@@ -59,12 +59,12 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+                    <a href="/" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path class="fill-current text-gray-600 group-hover:text-cyan-600" fill-rule="evenodd" d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z" clip-rule="evenodd" />
                             <path class="fill-current text-gray-300 group-hover:text-cyan-300" d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
                         </svg>
-                        <span class="group-hover:text-gray-700">Statistics</span>
+                        <span class="group-hover:text-gray-700">Home</span>
                     </a>
                 </li>
 
@@ -128,8 +128,98 @@
             </div>
         </div>
 
-        PRODUCTS
+        <div class="flex flex-col">
+            <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+                <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                        <table class="min-w-full">
+                            <thead class="bg-white border-b">
+                            <tr>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    #
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    User
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Media
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Name
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Description
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Category
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                                    Source
+                                </th>
+                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-center">
+                                    Handle
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($products as $product)
+                                <tr class="bg-gray-100 border-b hover:bg-gray-500/15">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $product->id }}
+                                    </td>
+                                    <td class="text-sm flex items-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        <img src="{{ asset('storage/' . $product->user->avatar ) }}" class="h-6 rounded-full w-6" alt="">
+                                        <p class="text-sm ml-2">{{ $product->user->name }}</p>
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        <div class="flex">
+                                            @foreach($product->media as $media)
+                                                <img src="{{ asset('storage/' . $media->name ) }}" onmouseenter="expandMedia(this)" onmouseleave="reduceMedia(this)" class="h-10 rounded-sm mx-1 ">
+                                            @endforeach
+                                        </div>
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{ $product->name }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{ strlen($product->description) > 100 ? substr($product->description, 0, 100) . '...' : $product->description }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        {{ $product->category->name }}
+                                    </td>
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                                        <a class="text-blue-600 hover:underline"
+                                            href="/products/{{ $product->id }}">
+                                            <p>View</p>
+                                        </a>
+                                    </td>
+                                    <td class="text-sm text-gray-900 flex justify-center font-light px-6 py-4 whitespace-nowrap">
+                                        <form action="/dashboard/products/{{ $product->id }}" method="post" class="w-fit">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="h- text-red-500 mx-1 hover:underline" onclick="return confirm('Are you sure you want to delete this user ?')">Remove</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        function expandMedia(img) {
+            img.classList.add('absolute', 'h-[20rem]', 'top-1/2', 'left-1/2', 'transform', '-translate-x-1/2', '-translate-y-1/2');
+        }
+
+        function reduceMedia(img) {
+            img.classList.remove('absolute', 'h-[20rem]', 'top-1/2', 'left-1/2', 'transform', '-translate-x-1/2', '-translate-y-1/2');
+        }
+    </script>
+
     <script type="module" src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"></script>
     <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous"/>
