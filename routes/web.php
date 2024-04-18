@@ -17,6 +17,7 @@ use App\Http\Middleware\checkRole;
 use App\Http\Middleware\ValidateCategory;
 use App\Http\Middleware\validateProduct;
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,14 @@ Route::middleware('auth')->group(function () {
     // reviews
     Route::post('/create-review/{product_id}', [ReviewController::class, 'store']);
     Route::delete('/remove-review/{review_id}', [ReviewController::class, 'destroy']);
+
+    // cart
+    Route::get('/cart', [ShopController::class, 'cart']);
+    Route::delete('/cart/{cart_id}', [CartController::class, 'destroy']);
+    Route::post('/cart/{product_id}', [CartController::class, 'store']);
+
+    // checkout
+    Route::get('/checkout', [ShopController::class, 'checkout']);
 });
 
 Route::get('/about', function () {
