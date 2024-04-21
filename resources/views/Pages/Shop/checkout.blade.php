@@ -4,8 +4,13 @@
 
     <div class=" grid grid-cols-3 my-20">
         <form method="post"
-              action="/checkout/order"
+              action="/checkout/{{ $carts->pluck('product_id') }}"
+{{--              action="/checkout/[5,1,2]"--}}
               class="lg:col-span-2 col-span-3 space-y-8 px-12">
+            @csrf
+            @if(session('error'))
+                <p class="text-red-500">{{ session('error') }} </p>
+            @endif
             <div class="mt-8 p-4 relative flex flex-col sm:flex-row sm:items-center bg-white shadow rounded-md">
                 <div class="flex flex-row items-center border-b sm:border-b-0 w-full sm:w-auto pb-4 sm:pb-0">
                     <div class="text-yellow-500">
@@ -27,23 +32,38 @@
                         <fieldset class="mb-3 bg-white shadow-lg rounded text-gray-600">
                             <label class="flex border-b border-gray-200 h-12 py-3 items-center">
                                 <span class="text-right px-2">Full Name</span>
-                                <input name="name" value="{{ \Illuminate\Support\Facades\Auth::user()->name }}" class="focus:outline-none px-3" placeholder="Try Odinsson" required="">
+                                <input name="full_name" value="{{ \Illuminate\Support\Facades\Auth::user()->name }}" class="focus:outline-none px-3" placeholder="Try Odinsson" required="">
+                                @error('full_name')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
                             </label>
                             <label class="flex border-b border-gray-200 h-12 py-3 items-center">
                                 <span class="text-right px-2">Email</span>
-                                <input name="emal" class="focus:outline-none px-3" placeholder="try@gmail.com" value="{{ Auth::user()->email }}">
+                                <input name="email" class="focus:outline-none px-3" placeholder="try@gmail.com" value="{{ Auth::user()->email }}">
+                                @error('email')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
                             </label>
                             <label class="flex border-b border-gray-200 h-12 py-3 items-center">
                                 <span class="text-right px-2">Address</span>
                                 <input name="address" class="focus:outline-none px-3" placeholder="N12 Hay Wisslan C Fes">
+                                @error('address')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
                             </label>
                             <label class="flex border-b border-gray-200 h-12 py-3 items-center">
                                 <span class="text-right px-2">City</span>
                                 <input name="city" class="focus:outline-none px-3" placeholder="Casablanca">
+                                @error('city')
+                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
                             </label>
                             <label class="inline-flex w-2/4 border-gray-200 py-3">
                                 <span class="text-right px-2">Pone Number</span>
-                                <input name="phone-number" class="focus:outline-none px-3" placeholder="+212 627974538">
+                                <input name="phone_number" class="focus:outline-none px-3" placeholder="06 62 79 74 58">
+                                @error('phone_number')
+                                    <p class="text-red-500 text-sm">{{ $message }}</p>
+                                @enderror
                             </label>
 
                         </fieldset>
