@@ -14,7 +14,7 @@ class ShopController extends Controller
     public function index()
     {
         $all_products = Product::with(['media', 'category'])->get();
-        foreach ($all_products as &$item) {
+        foreach ($all_products as $item) {
             $item['rate'] = ReviewController::rate($item['id'])['rate'];
         }
 //        dd($all_products);
