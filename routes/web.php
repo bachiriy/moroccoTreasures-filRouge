@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ResetPWController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SellerRequestController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\checkRole;
 use App\Http\Middleware\ValidateCategory;
+use App\Http\Middleware\ValidateOrder;
 use App\Http\Middleware\validateProduct;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\CartController;
@@ -71,6 +73,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/dashboard/requests/{user_id}/deny', [SellerRequestController::class, 'deny']);
         // mng categories
         Route::resource('/dashboard/categories', CategoryController::class)->middleware(ValidateCategory::class);
+        // mgn products
+        Route::delete('/dashboard/products/{product_id}', [ProductController::class, 'destroy']);
     });
     // user
     Route::get('/profile', [UserController::class , 'index']);
@@ -87,6 +91,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/products/create', [ProductController::class, 'create']);
         Route::delete('/products/{product_id}', [ProductController::class, 'destroy']);
         Route::get('/products/{product_id}/edit', [ProductController::class, 'edit']);
+
+        // orders
+        Route::get('/orders', [ProductController::class, 'orders']);
+        Route::delete('/orders/{order_id}', [OrderController::class, 'destroy']);
     });
 
     // notifications
@@ -103,6 +111,7 @@ Route::middleware('auth')->group(function () {
 
     // checkout
     Route::get('/checkout', [ShopController::class, 'checkout']);
+    Route::post('/checkout/{products_ids}', [OrderController::class, 'store'])->middleware(ValidateOrder::class);
 });
 
 Route::get('/about', function () {
