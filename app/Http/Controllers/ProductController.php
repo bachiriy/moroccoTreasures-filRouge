@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Media;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -108,5 +109,14 @@ class ProductController extends Controller
 
         Product::destroy($id);
         return back()->with('success', 'Product deleted.');
+    }
+
+
+    // show orders view
+    public function orders()
+    {
+        $orders = Order::with('product')->where('seller_id', Auth::id())->get();
+//        dd($orders->toArray());
+        return view('Pages.Products.orders', ['page' => 'My Orders'], compact('orders'));
     }
 }
