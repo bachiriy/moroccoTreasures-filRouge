@@ -3,238 +3,6 @@
 @section('content')
     @include('Layouts.navbar')
 
-    <div class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
-
-        <div class="fixed inset-0 bg-black bg-opacity-25"></div>
-
-        <div class="fixed inset-0 z-40 flex">
-
-            <div class="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
-                <div class="flex px-4 pb-2 pt-5">
-                    <button type="button" class="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400">
-                        <span class="sr-only">Close menu</span>
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Links -->
-                <div class="mt-2">
-                    <div class="border-b border-gray-200">
-                        <div class="-mb-px flex space-x-8 px-4" aria-orientation="horizontal" role="tablist">
-                            <button id="tabs-1-tab-1" class="border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium" aria-controls="tabs-1-panel-1" role="tab" type="button">Women</button>
-                            <button id="tabs-1-tab-2" class="border-transparent text-gray-900 flex-1 whitespace-nowrap border-b-2 px-1 py-4 text-base font-medium" aria-controls="tabs-1-panel-2" role="tab" type="button">Men</button>
-                        </div>
-                    </div>
-
-                    <!-- 'Women' tab panel, show/hide based on tab state. -->
-                    <div id="tabs-1-panel-1" class="space-y-12 px-4 pb-6 pt-10" aria-labelledby="tabs-1-tab-1" role="tabpanel" tabindex="0">
-                        <div class="grid grid-cols-1 items-start gap-x-6 gap-y-10">
-                            <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                <div>
-                                    <p id="mobile-featured-heading-0" class="font-medium text-gray-900">Featured</p>
-                                    <ul role="list" aria-labelledby="mobile-featured-heading-0" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Sleep</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Swimwear</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Underwear</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <p id="mobile-categories-heading" class="font-medium text-gray-900">Categories</p>
-                                    <ul role="list" aria-labelledby="mobile-categories-heading" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Basic Tees</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Artwork Tees</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Bottoms</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Underwear</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Accessories</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                <div>
-                                    <p id="mobile-collection-heading" class="font-medium text-gray-900">Collection</p>
-                                    <ul role="list" aria-labelledby="mobile-collection-heading" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Everything</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Core</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">New Arrivals</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Sale</a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div>
-                                    <p id="mobile-brand-heading" class="font-medium text-gray-900">Brands</p>
-                                    <ul role="list" aria-labelledby="mobile-brand-heading" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Full Nelson</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">My Way</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Re-Arranged</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Counterfeit</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Significant Other</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 'Men' tab panel, show/hide based on tab state. -->
-                    <div id="tabs-1-panel-2" class="space-y-12 px-4 pb-6 pt-10" aria-labelledby="tabs-1-tab-2" role="tabpanel" tabindex="0">
-                        <div class="grid grid-cols-1 items-start gap-x-6 gap-y-10">
-                            <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                <div>
-                                    <p id="mobile-featured-heading-1" class="font-medium text-gray-900">Featured</p>
-                                    <ul role="list" aria-labelledby="mobile-featured-heading-1" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Casual</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Boxers</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Outdoor</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <p id="mobile-categories-heading" class="font-medium text-gray-900">Categories</p>
-                                    <ul role="list" aria-labelledby="mobile-categories-heading" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Artwork Tees</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Pants</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Accessories</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Boxers</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Basic Tees</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-1 gap-x-6 gap-y-10">
-                                <div>
-                                    <p id="mobile-collection-heading" class="font-medium text-gray-900">Collection</p>
-                                    <ul role="list" aria-labelledby="mobile-collection-heading" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Everything</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Core</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">New Arrivals</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Sale</a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div>
-                                    <p id="mobile-brand-heading" class="font-medium text-gray-900">Brands</p>
-                                    <ul role="list" aria-labelledby="mobile-brand-heading" class="mt-6 space-y-6">
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Significant Other</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">My Way</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Counterfeit</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Re-Arranged</a>
-                                        </li>
-                                        <li class="flex">
-                                            <a href="#" class="text-gray-500">Full Nelson</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                    <div class="flow-root">
-                        <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Company</a>
-                    </div>
-                    <div class="flow-root">
-                        <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Stores</a>
-                    </div>
-                </div>
-
-                <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                    <div class="flow-root">
-                        <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Create an account</a>
-                    </div>
-                    <div class="flow-root">
-                        <a href="#" class="-m-2 block p-2 font-medium text-gray-900">Sign in</a>
-                    </div>
-                </div>
-
-                <div class="space-y-6 border-t border-gray-200 px-4 py-6">
-                    <!-- Currency selector -->
-                    <form>
-                        <div class="inline-block">
-                            <label for="mobile-currency" class="sr-only">Currency</label>
-                            <div class="group relative -ml-2 rounded-md border-transparent focus-within:ring-2 focus-within:ring-white">
-                                <select id="mobile-currency" name="currency" class="flex items-center rounded-md border-transparent bg-none py-0.5 pl-2 pr-5 text-sm font-medium text-gray-700 focus:border-transparent focus:outline-none focus:ring-0 group-hover:text-gray-800">
-                                    <option>CAD</option>
-                                    <option>USD</option>
-                                    <option>AUD</option>
-                                    <option>EUR</option>
-                                    <option>GBP</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center">
-                                    <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 
@@ -317,13 +85,12 @@
                     </button>
                 </form>
                 @else
-                    <p class="text-sm my-4">Already in Cart, <a href="/cart" class="text-blue-500 hover:underline">Check Cart</a> </p>
+                    <form action="">
+                        <a href="/cart" type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-8 py-3 text-base font-medium text-gray-500 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            See Cart
+                        </a>
+                    </form>
                 @endif
-                <form action="">
-                    <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-8 py-3 text-base font-medium text-gray-500 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                        Buy it Now
-                    </button>
-                </form>
             </div>
 
             <div class="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
@@ -353,13 +120,24 @@
 
             <div class="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
                 @if(session('success'))
-                    <p class="text-sm text-green-500">{{ session('success') }}</p>
+                    <p class="msg text-sm text-green-500">{{ session('success') }}</p>
                 @endif
                 @if(session('error'))
-                    <p class="text-sm text-red-500">{{ session('error') }}</p>
+                    <p class="msg text-sm text-red-500">{{ session('error') }}</p>
                 @endif
-                <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-4">Add a Review</h2>
+                <script>
+                    let msgs = document.querySelectorAll('.msg')
+                    window.onload = function () {
+                        setInterval(() => {
+                            msgs.forEach((elm) => {
+                                elm.innerHTML = '';
+                                elm.style.border = 'none';
+                            });
+                        }, 3000);
+                    };
+                </script>
 
+                <h2 class="text-xl font-bold tracking-tight text-gray-900 mb-4">Add a Review</h2>
                 <form action="/create-review/{{$product->id}}" method="post" class="border border-gray-300 rounded-md p-6">
                     @csrf
                     <div class="mb-4">
