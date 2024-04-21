@@ -81,7 +81,7 @@
             </button>
         </form>
     </aside>
-    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden">
+    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden h-screen">
         <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
             <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
                 <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">Products</h5>
@@ -90,6 +90,22 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
                 </button>
+                @if(session('success'))
+                    <p class="msg text-green-500 transition-all border border-green-500 px-4 py-1 rounded-sm">{{ session('success') }}</p>
+                @elseif(session('error'))
+                    <p class="msg text-red-500 transition-all border border-red-500 px-4 py-1 rounded-sm">{{ session('error') }}</p>
+                @endif
+                <script>
+                    let msgs = document.querySelectorAll('.msg')
+                    window.onload = function () {
+                        setInterval(() => {
+                            msgs.forEach((elm) => {
+                                elm.innerHTML = '';
+                                elm.style.border = 'none';
+                            });
+                        }, 3000);
+                    };
+                </script>
                 <div class="flex space-x-4">
                     <button class="mx-4 middle none center flex items-center justify-center rounded-lg p-3 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-dark="true" data-popover-target="notifications-menu">
@@ -101,7 +117,7 @@
                                 <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
                                     <div class="flex flex-col gap-1">
                                         <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
-                                            <span class="font-bold text-blue-gray-900">{{ $notification->title . ' ' . Auth::user()->name }},</span>
+                                            <span class="font-bold text-blue-gray-900">{{ $notification->title }},</span>
                                             {{ $notification->description }}
                                         </p>
                                         <p class="flex items-center gap-1 font-sans text-xs font-light text-gray-600 antialiased">
@@ -129,9 +145,9 @@
         </div>
 
         <div class="flex flex-col">
-            <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
+            <div class="sm:mx-0.5 lg:mx-0.5">
                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="overflow-hidden">
+                    <div class="">
                         <table class="min-w-full">
                             <thead class="bg-white border-b">
                             <tr>
@@ -139,17 +155,12 @@
                                     #
                                 </th>
                                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    User
+                                    Creator
                                 </th>
                                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Media
+                                    Product
                                 </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Name
-                                </th>
-                                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    Description
-                                </th>
+
                                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                                     Category
                                 </th>
@@ -167,25 +178,38 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                         {{ $product->id }}
                                     </td>
-                                    <td class="text-sm flex items-center text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        <img src="{{ asset('storage/' . $product->user->avatar ) }}" class="h-6 rounded-full w-6" alt="">
-                                        <p class="text-sm ml-2">{{ $product->user->name }}</p>
-                                    </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        <div class="flex">
-                                            @foreach($product->media as $media)
-                                                <img src="{{ asset('storage/' . $media->name ) }}" onmouseenter="expandMedia(this)" onmouseleave="reduceMedia(this)" class="h-10 rounded-sm mx-1 ">
-                                            @endforeach
+                                        <div class="relative group flex items-center">
+                                            <img src="{{ asset('storage/' . $product->user->avatar ) }}" class="h-6 rounded-full w-6" alt="">
+                                            <p class="text-sm ml-2">{{ $product->user->name }}</p>
+                                            <span class="absolute top-full left-0 w-64 rounded-lg bg-gray-800 text-white px-4 py-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <span class="underline">email</span> :  {{ $product->user->email }}
+                                            </span>
                                         </div>
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {{ $product->name }}
+                                        <p class="relative group">
+                                            {{ $product->name }}
+                                            <span class="absolute top-full left-0 w-64 rounded-lg bg-gray-800 text-white px-4 py-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <span class="underline"> description </span> : {{ $product->description }} <br>
+                                            <span class="underline"> media </span> :
+                                            <span class="flex">
+                                                @foreach($product->media as $item)
+                                                    <img src="{{ asset('storage/'. $item->name) }}" class="h-8 mx-1 my-3 flex rounded-sm">
+                                                @endforeach
+                                            </span>
+                                        </span>
+                                        </p>
                                     </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {{ strlen($product->description) > 100 ? substr($product->description, 0, 100) . '...' : $product->description }}
-                                    </td>
-                                    <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                                        {{ $product->category->name }}
+
+
+                                    <td class="text-sm text-gray-900 font-light px-6 py-4">
+                                        <p class="relative group">
+                                            {{ $product->category->name }}
+                                            <span class="absolute top-full left-0 w-64 whitespace-pre-line rounded-lg bg-gray-800 text-white px-4 py-2 text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                            <span class="underline">description </span> :  {{ $product->category->description }}
+                                        </span>
+                                        </p>
                                     </td>
                                     <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                         <a class="text-blue-600 hover:underline"
@@ -210,15 +234,6 @@
         </div>
     </div>
 
-    <script>
-        function expandMedia(img) {
-            img.classList.add('absolute', 'h-[20rem]', 'top-1/2', 'left-1/2', 'transform', '-translate-x-1/2', '-translate-y-1/2');
-        }
-
-        function reduceMedia(img) {
-            img.classList.remove('absolute', 'h-[20rem]', 'top-1/2', 'left-1/2', 'transform', '-translate-x-1/2', '-translate-y-1/2');
-        }
-    </script>
 
     <script type="module" src="https://unpkg.com/@material-tailwind/html@latest/scripts/popover.js"></script>
     <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/ripple.js"></script>
