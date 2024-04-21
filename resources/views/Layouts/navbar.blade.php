@@ -23,7 +23,7 @@
                         <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
                             <div class="flex flex-col gap-1">
                                 <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
-                                    <span class="font-bold text-blue-gray-900">{{ $notification->title . ' ' . Auth::user()->name }},</span>
+                                    <span class="font-bold text-blue-gray-900">{{ $notification->title}},</span>
                                     {{ $notification->description }}
                                 </p>
                                 <p class="flex items-center gap-1 font-sans text-xs font-light text-gray-600 antialiased">
@@ -65,13 +65,18 @@
                         <li>
                             <a href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Profile</a>
                         </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">Earnings</a>
-                        </li>
+                        @if(in_array(Auth::user()->role, ['Admin', 'Super_Admin', 'Seller']))
+                            <li>
+                                <a href="/products" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">My Products</a>
+                            </li>
+                        @endif
                         <li>
                             <a href="/products/create" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">
                                 Create Product
                             </a>
+                        </li>
+                        <li>
+                            <a href="/shop" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ">See Shop</a>
                         </li>
 
                         <li>
