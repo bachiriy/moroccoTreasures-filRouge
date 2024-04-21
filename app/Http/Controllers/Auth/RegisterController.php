@@ -34,7 +34,7 @@ class RegisterController extends Controller
         ]);
         Auth::login($user);
         Notification::create([
-            'title' => 'Welcome',
+            'title' => 'Welcome '.$user->name,
             'description' => $request->role === 'seller' ? 'You are now a member of the MHM, wait for Admin approval so you can start posting products' : ($usrCount === 0 ? 'You are the Admin of the website, you have control over the whole platform, enjoy it sir.' : 'You are now a member of the MHM, enjoy the shop.'),
             'user_id' => $user->id,
         ]);
