@@ -9,6 +9,12 @@
     >
         Create Product
     </a>
+    <a
+        href="/orders"
+        class="fixed right-8 bottom-20 text-white bg-red-600 p-2 rounded-lg border border-red-300 hover:opacity-80 shadow-lg"
+    >
+        Check Orders
+    </a>
     <h1 class="text-center text-xl m-2 mt-6 text-gray-400">View and Manage My Products</h1>
     @if(session('success'))
         <p class="msg text-center w-75 text-green-500 transition-all border border-green-500 px-4 py-1 rounded-sm">{{ session('success') }}</p>
