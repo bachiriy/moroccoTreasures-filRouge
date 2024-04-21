@@ -15,6 +15,9 @@
         @endif
         <div class="mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0">
             <div class="rounded-lg md:w-2/3">
+                @if(count($carts) === 0)
+                    <p class="mt-10">No products were added to cart, try <span><a href="/shop" class="text-blue-600 hover:underline">shop</a></span>.</p>
+                @endif
                 @foreach($carts as $cart)
                 <div class="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
                     <img src="{{ asset('storage/'.$cart->media->name) }}" alt="product-image" class="w-full rounded-lg sm:w-40" />
