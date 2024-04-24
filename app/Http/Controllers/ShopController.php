@@ -13,7 +13,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $all_products = Product::with(['media', 'category'])->get();
+        $all_products = Product::with(['media', 'category'])->paginate(12);
         foreach ($all_products as $item) {
             $item['rate'] = ReviewController::rate($item['id'])['rate'];
         }
