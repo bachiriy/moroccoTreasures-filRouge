@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Media;
 use App\Models\Order;
 use App\Models\Product;
@@ -17,7 +18,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $my_products = Product::where('user_id', Auth::id())->with(['category', 'media'])->get();
+        $my_products = Product::where('user_id', Auth::id())->with(['category', 'media'])->paginate(8);
         return view('Pages.Products.index', ['page' => 'My Products', 'my_products' => $my_products]);
     }
 
@@ -72,8 +73,9 @@ class ProductController extends Controller
         $review_rate = ReviewController::rate($product->id);
         $rate = $review_rate['rate'];
         $total_reviews = $review_rate['total_reviews'];
-
-        return $product ? view('Pages.Products.show', ['page' => 'Shop'], compact('product', 'reviews', 'similar_products', 'rate', 'total_reviews')) : abort(404);
+        $orders = Order::where('product_id', $id)->get()->count();
+        $inCart = Cart::where('product_id', $id)->get()->count();
+        return $product ? view('Pages.Products.show', ['page' => 'Shop'], compact('product', 'reviews', 'similar_products', 'rate', 'total_reviews', 'orders', 'inCart')) : abort(404);
     }
 
     /**
