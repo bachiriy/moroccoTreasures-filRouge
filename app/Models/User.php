@@ -57,12 +57,17 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class);
     }
 
-    public function reviews () {
-        return $this->hasMany(Review::class);
+    public function seller_product_reviews () {
+        return $this->hasMany(Review::class, 'product_id');
     }
 
-    public function carts()
+    public function in_cart()
     {
         return $this->hasMany(Cart::class);
+    }
+
+    public function seller_orders()
+    {
+        return $this->hasMany(Order::class, 'seller_id');
     }
 }
