@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\SellerRequest;
 use App\Models\User;
@@ -12,10 +14,15 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $stats = User::groupBy('role')
-            ->selectRaw('count(*) as count, role')
-            ->pluck('count', 'role')
-            ->toArray();
+        $sellers = User::whereIn('role', ['Seller', 'Admin', 'Super_Admin'])->get();
+        foreach ($sellers as $seller) {
+            $seller['products'] = Product::where('user_id', $seller->id)->get();
+            $seller['in_cart'] = Cart::whereIn('product_id', $seller['products']->pluck('id'))->get()->count();
+            $seller['orders'] = Order::where('seller_id', $seller->id)->count();
+            $seller['products'] = $seller['products']->count();
+        }
+        $stats = $sellers->toArray();
+
         return view('Pages.Dashboard.index', ['page' => 'Dashboard - Index'], compact('stats'));
     }
 
