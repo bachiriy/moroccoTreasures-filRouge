@@ -19,10 +19,7 @@ class CartController extends Controller
     public function store(string $product_id)
     {
         $product = Product::findOrFail($product_id);
-        $cart = Cart::where('product_id', $product_id)->first();
-        if ($cart !== null) {
-            return back()->with('error', 'this product is already in cart.');
-        }
+
         Cart::create([
             'product_id' => $product_id,
             'user_id' => Auth::id(),
