@@ -17,6 +17,9 @@
     <script src="https://unpkg.com/create-file-list"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
