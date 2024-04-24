@@ -1,19 +1,19 @@
 @extends('Layouts.app')
 
 @section('content')
-    <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
+    <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r border-red-900 bg-gradient-to-r from-gray-950 to-red-950 transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
             <div class="mt-8 text-center">
                 <a href="/profile">
                     <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="" class="w-10 h-10 m-auto rounded-full object-cover lg:w-28 lg:h-28">
-                    <h5 class="hidden mt-4 text-xl font-semibold text-gray-600 lg:block">{{ Auth::user()->name }}</h5>
+                    <h5 class="hidden mt-4 text-xl font-semibold text-gray-300 lg:block">{{ Auth::user()->name }}</h5>
                     <span class="hidden text-gray-400 lg:block">{{ Auth::user()->role }}</span>
                 </a>
             </div>
 
             <ul class="space-y-2 tracking-wide mt-8">
                 <li>
-                    <a href="/dashboard" aria-label="dashboard" class="relative px-4 py-3 flex items-center space-x-4 rounded-xl text-white bg-gradient-to-r from-sky-600 to-cyan-400">
+                    <a href="/dashboard" aria-label="dashboard" class="relative px-4 py-3 flex items-center space-x-4 rounded-xl text-white bg-gradient-to-r from-red-800 to-cyan-800">
                         <svg class="-ml-1 h-6 w-6" viewBox="0 0 24 24" fill="none">
                             <path d="M6 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8ZM6 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-1Z" class="fill-current text-cyan-400 dark:fill-slate-600"></path>
                             <path d="M13 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2V8Z" class="fill-current text-cyan-200 group-hover:text-cyan-300"></path>
@@ -81,10 +81,10 @@
             </button>
         </form>
     </aside>
-    <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden">
-        <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
+    <div class="ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden bg-gradient-to-l from-gray-900 to-red-950 h-screen">
+        <div class="sticky z-10 top-0 lg:py-2.5 bg-gradient-to-l border-b border-red-900 from-gray-900 to-red-950">
             <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
-                <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">Dashboard</h5>
+                <h5 hidden class="text-2xl text-gray-300 font-medium lg:block">Dashboard</h5>
                 <button class="w-12 h-16 -mr-2 border-r lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -128,26 +128,95 @@
             </div>
         </div>
 
-        <canvas id="myChart" style="width: 50%; height: 10%"></canvas>
+
+
+        <div class="my-12 mx-6 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-4">
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+                <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-blue-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-6 h-6 text-white">
+                        <path d="M12 7.5a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z"></path>
+                        <path fill-rule="evenodd" d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 14.625v-9.75zM8.25 9.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM18.75 9a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V9.75a.75.75 0 00-.75-.75h-.008zM4.5 9.75A.75.75 0 015.25 9h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H5.25a.75.75 0 01-.75-.75V9.75z" clip-rule="evenodd"></path>
+                        <path d="M2.25 18a.75.75 0 000 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 00-.75-.75H2.25z"></path>
+                    </svg>
+                </div>
+                <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Products</p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ App\Models\Product::all()->count() }}</h4>
+                </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+                <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-pink-600 to-pink-400 text-white shadow-pink-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-6 h-6 text-white">
+                        <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Users</p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ App\Models\User::all()->count() }}</h4>
+                </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+                <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-green-600 to-green-400 text-white shadow-green-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-6 h-6 text-white">
+                        <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z"></path>
+                    </svg>
+                </div>
+                <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Buyers</p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ App\Models\User::where('role', 'Buyer')->get()->count() }}</h4>
+                </div>
+            </div>
+            <div class="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 shadow-md">
+                <div class="bg-clip-border mx-4 rounded-xl overflow-hidden bg-gradient-to-tr from-orange-600 to-orange-400 text-white shadow-orange-500/40 shadow-lg absolute -mt-4 grid h-16 w-16 place-items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-6 h-6 text-white">
+                        <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75zM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 01-1.875-1.875V8.625zM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 013 19.875v-6.75z"></path>
+                    </svg>
+                </div>
+                <div class="p-4 text-right">
+                    <p class="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">Total Orders</p>
+                    <h4 class="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">{{ App\Models\Order::all()->count() }}</h4>
+                </div>
+            </div>
+        </div>
+
+
+        <h1 class="text-xl font-bold mt-10 mb-4 text-gray-600 text-center">
+            How many <span class="text-green-500 font-bold">Products</span>, <span class="text-blue-400 font-bold">In Cart</span>, <span class="font-bold text-pink-400">Orders</span> for each Seller
+        </h1>
+        <canvas id="myChart" height="80" class="mx-6"></canvas>
     </div>
 
 
     <script>
-        const roles = <?php
-            echo json_encode(array_keys($stats));
-            ?>;
-        const counts = <?php echo json_encode(array_values($stats)); ?>;
+        const stats = <?php echo json_encode($stats)?>
+
+        const info = stats.map(item => ({name: item.name, email: item.email}));
+        const orders = stats.map(item => item.orders);
+        const inCart = stats.map(item => item.in_cart);
+        const products = stats.map(item => item.products);
 
         const ctx = document.getElementById('myChart').getContext('2d');
         const chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: roles,
-                datasets: [{
-                    label: 'User Count',
-                    data: counts,
-                    backgroundColor: 'rgba(54, 162, 235, 0.5)', // blue color
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                labels: info.map(item => `${item.name} | ${item.email}`),
+                datasets: [ {
+                    label: 'Products',
+                    data: products,
+                    backgroundColor: 'rgba(27,234,12,0.5)',
+                    borderColor: 'rgba(0,128,30,0.5)',
+                    borderWidth: 1
+                }, {
+                    label: 'In Cart',
+                    data: inCart,
+                    backgroundColor: 'rgba(12,234,234,0.5)',
+                    borderColor: 'rgba(0,128,128,0.5)',
+                    borderWidth: 1
+                }, {
+                    label: 'Orders',
+                    data: orders,
+                    backgroundColor: 'rgba(227,12,234,0.5)',
+                    borderColor: 'rgba(92,0,128,0.5)',
                     borderWidth: 1
                 }]
             },
