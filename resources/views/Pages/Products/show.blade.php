@@ -77,19 +77,23 @@
                     </div>
                 </div>
 
-                @if(\App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->where('product_id', $product->id)->get()->count() === 0)
-                <form class="mt-10" action="/cart/{{ $product->id }}" method="post">
-                    @csrf
-                    <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-8 py-3 text-base font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                        Add to Cart
-                    </button>
-                </form>
+                @if(Auth::id() === $product->user_id)
+                    <canvas id="ordersChart" width="50" height="50"></canvas>
                 @else
-                    <form action="">
-                        <a href="/cart" type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-8 py-3 text-base font-medium text-gray-500 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
-                            See Cart
-                        </a>
+                    @if(\App\Models\Cart::where('user_id', \Illuminate\Support\Facades\Auth::id())->where('product_id', $product->id)->get()->count() === 0)
+                    <form class="mt-10" action="/cart/{{ $product->id }}" method="post">
+                        @csrf
+                        <button type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-800 px-8 py-3 text-base font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            Add to Cart
+                        </button>
                     </form>
+                    @else
+                        <form action="">
+                            <a href="/cart" type="submit" class="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-yellow-400 px-8 py-3 text-base font-medium text-gray-500 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                                See Cart
+                            </a>
+                        </form>
+                    @endif
                 @endif
             </div>
 
@@ -279,6 +283,40 @@
         </section>
 
     </main>
+
+    <script>
+        const orders = <?php echo json_encode($orders); ?>;
+        const inCart = <?php echo json_encode($inCart); ?>;
+
+        const ctx = document.getElementById('ordersChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Orders', 'In Cart'],
+                datasets: [{
+                    label: 'Orders',
+                    data: [orders, 0],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'In Cart',
+                    data: [0, inCart],
+                    backgroundColor: 'rgba(223,62,241,0.85)',
+                    borderColor: 'rgb(183,0,125)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
 
     @include('Layouts.footer')
 @endsection
