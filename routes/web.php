@@ -20,6 +20,8 @@ use App\Http\Middleware\ValidateOrder;
 use App\Http\Middleware\validateProduct;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\CartController;
+use \App\Models\Category;
+use \App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +35,12 @@ use \App\Http\Controllers\CartController;
 */
 
 Route::get('/', function () {
-    return view('home', ['page' => 'Home']);
+    $categories = Category::take(4)->get();
+    foreach($categories as  $cat){
+        $cat->product = Product::with('media')->where('category_id', $cat['id'])->first();
+    }
+    // dd($categories);
+    return view('home', ['page' => 'Home', 'content' => $categories]);
 });
 
 
