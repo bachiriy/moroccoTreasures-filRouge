@@ -80,7 +80,9 @@
                     <li>
                         <a href="/shop" class="block px-4 py-2 text-sm text-gray-400 hover:text-red-800">See Shop</a>
                     </li>
-
+                    <li>
+                        <a href="/#contact" class="block px-4 py-2 text-sm text-gray-400 hover:text-red-800">Contact</a>
+                    </li>
                     <li>
                         <form action="/logout" method="POST" class="">
                             @csrf
