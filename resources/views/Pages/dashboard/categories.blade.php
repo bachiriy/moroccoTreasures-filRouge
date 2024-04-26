@@ -81,8 +81,8 @@
         </button>
     </form>
 </aside>
-<div class="ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden bg-gradient-to-l from-gray-900 to-red-950 h-screen">
-<div class="sticky z-10 top-0 lg:py-2.5 bg-gradient-to-l border-b border-red-900 from-gray-900 to-red-950">
+<div class="ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%] overflow-hidden bg-gradient-to-l from-gray-900 to-red-950 ">
+    <div class="sticky z-10 top-0 lg:py-2.5 bg-gradient-to-l border-b border-red-900 from-gray-900 to-red-950">
         <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
             <h5 hidden class="text-2xl text-gray-300 font-medium lg:block">Categories</h5>
             <button class="w-12 h-16 -mr-2 border-r lg:hidden">
@@ -116,16 +116,16 @@
                 <button class="mx-4 middle none center flex items-center justify-center rounded-lg p-3 font-sans text-xs font-bold uppercase text-pink-500 transition-all hover:bg-pink-500/10 active:bg-pink-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" data-ripple-dark="true" data-popover-target="notifications-menu">
                     <i class="fas fa-bell text-lg leading-none"></i>
                 </button>
-                <ul role="menu" data-popover="notifications-menu" data-popover-placement="bottom" style="z-index: 1000" class="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
-                    @if(count(\App\Models\Notification::where('user_id', Auth::id())->get() ) > 0)
+                @if(App\Models\Notification::where('user_id', Auth::id())->count() > 0)
+                <ul role="menu" data-popover="notifications-menu" data-popover-placement="bottom" style="z-index: 1000" class="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md bg-gradient-to-r from-gray-900 to-red-950  p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
                     @foreach(\Illuminate\Support\Facades\Auth::user()->notifications()->orderBy('created_at', 'desc')->get() as $notification)
-                    <button role="menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
+                    <button role=" menuitem" class="flex w-full cursor-pointer select-none items-center gap-4 rounded-md px-3 py-2 pr-8 pl-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
                         <div class="flex flex-col gap-1">
-                            <p class="block font-sans text-sm font-normal leading-normal text-gray-700 antialiased">
-                                <span class="font-bold text-blue-gray-900">{{ $notification->title }},</span>
+                            <p class="block font-sans text-sm font-normal leading-normal text-gray-200 antialiased">
+                                <span class="font-bold text-blue-gray-900">{{ $notification->title}},</span>
                                 {{ $notification->description }}
                             </p>
-                            <p class="flex items-center gap-1 font-sans text-xs font-light text-gray-600 antialiased">
+                            <p class="flex items-center gap-1 font-sans text-xs font-light text-gray-400 antialiased">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-3 w-3">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
@@ -137,14 +137,16 @@
                     <form action="/notifications" method="post">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="text-red-500 border border-red-500/25 p-1 rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                        <button type="submit" class="text-red-900 border border-red-500/25 px-2 py-1 rounded-lg hover:bg-red-800 hover:text-gray-300 transition-all">
                             Clear All
                         </button>
                     </form>
-                    @else
-                    no notifications.
-                    @endif
                 </ul>
+                @else
+                <ul role="menu" data-popover="notifications-menu" data-popover-placement="bottom" style="z-index: 1000" class="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md bg-gradient-to-r from-gray-900 to-red-950  p-3 font-sans text-sm font-normal text-gray-300 shadow-lg shadow-blue-gray-500/10 focus:outline-none">
+                    <p>no notifications.</p>
+                </ul>
+                @endif
             </div>
         </div>
     </div>
@@ -204,7 +206,7 @@
                                     <form action="/dashboard/categories/{{$category->id}}" method="post" class="w-fit">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="text-red-500 mx-2 hover:underline" onclick="confirm('Are you sure you want to delete this category ?')">Delete Category</button>
+                                        <button class="text-red-500 mx-2 hover:underline" onclick="return confirm('Are you sure you want to delete this category ?')">Delete Category</button>
                                     </form>
                                 </td>
                             </tr>
