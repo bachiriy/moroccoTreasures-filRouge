@@ -3,6 +3,8 @@
 use App\Http\Controllers\FilterByCategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
+use App\Http\Middleware\ValidateContact;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // filter by category
 Route::post('/shop/{category_id}', [FilterByCategoryController::class, 'handle']);
+
+// contact 
+Route::post('/contact', [ContactController::class, 'handle'])->middleware(ValidateContact::class);
