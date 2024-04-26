@@ -12,7 +12,7 @@ class ValidateCategory
     {
         if ($request->hasAny(['name', 'description'])) {
             $request->validate([
-                'name' => 'required|unique:categories|min:4|max:100',
+                'name' => $request->method() === 'POST' ? 'required|unique:categories|min:4|max:100' : 'min:4|max:100',
                 'description' => 'required|min:5|max:500'
             ]);
         }
