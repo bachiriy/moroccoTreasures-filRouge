@@ -62,7 +62,7 @@
         </div>
     </div>
     @if(count($my_products) === 0)
-    <div class="text-center h-96 items-center justify-center flex">
+    <div class="text-center h-96 text-gray-200 items-center justify-center flex">
         <p>No products created.</p>
     </div>
     @endif
