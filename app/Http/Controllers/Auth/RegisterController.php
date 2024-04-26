@@ -21,7 +21,7 @@ class RegisterController extends Controller
     {
     //    dd($request->role);
         $request->validate([
-            'name' => 'required|string|min:4|max:30',
+            'name' => 'required|string|min:4|max:30|unique:users',
             'email' => 'required|email|unique:users|max:255|ends_with:gmail.com',
             'password' => 'required|string|min:8',
             'role' => count(User::all()) !== 0 ? 'required' : ''
