@@ -55,7 +55,7 @@ class OrderController extends Controller
             'email' => $request->email,
             'address' => $request->address,
             'city' => $request->city,
-            'phone_number' => $request->full_name,
+            'phone_number' => $request->phone_number,
         ];
         Mail::to(Auth::user()->email)->send(new OrderMail($products, $infos));
         return redirect('/shop')->with('success', 'your checkout is successful, now wait for the confirmation fo your order.');
