@@ -18,7 +18,7 @@ class ValidateContact
         $request->validate([
             'name' => 'required|string|min:5|max:250',
             'email' => 'required|string|min:5|max:300|ends_with:gmail.com',
-            'phone' => 'required|integer',
+            'phone' => 'required|numeric|max:9999999999',
             'message' => 'required|min:5|string|max:1000',
         ]);
         return $next($request);
