@@ -141,26 +141,10 @@
 <!-- end content section -->
 
 
-<!-- about section -->
-<div class="py-16 bg-gradient-to-b from-gray-900 to-gray-800 text-white" id="about">
-    <div class="container m-auto px-6 md:px-12 xl:px-6">
-        <div class="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
-            <div class="md:5/12 lg:w-5/12">
-                <img src="{{ asset('storage/images/image1.jpg') }}" alt="image" loading="lazy" width="" height="">
-            </div>
-            <div class="md:7/12 lg:w-6/12">
-                <h2 class="text-2xl font-bold md:text-4xl">Nuxt development is carried out by passionate developers</h2>
-                <p class="mt-6">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum omnis voluptatem accusantium nemo perspiciatis delectus atque autem! Voluptatum tenetur beatae unde aperiam, repellat expedita consequatur! Officiis id consequatur atque doloremque!</p>
-                <p class="mt-4"> Nobis minus voluptatibus pariatur dignissimos libero quaerat iure expedita at? Asperiores nemo possimus nesciunt dicta veniam aspernatur quam mollitia.</p>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- end about section  -->
+
 
 <!-- contact section -->
-<!-- component -->
-<div id="contact" class="relative flex items-top justify-center min-h-screen bg-white dark:bg-gray-900 sm:items-center sm:pt-0">
+<div id="contact" class="relative flex items-top justify-center min-h-screen bg-gradient-to-r to-gray-700 from-red-950 sm:items-center sm:pt-0">
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="mt-8 overflow-hidden">
             <div class="grid grid-cols-1 md:grid-cols-2">
@@ -230,7 +214,26 @@
         </div>
     </div>
 </div>
+<!-- about section -->
+<div class="py-16 bg-gradient-to-b from-gray-900 to-gray-800 text-white" id="about">
+    <div class="container m-auto px-6 md:px-12 xl:px-6">
+        <div class="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
+            <div class="md:5/12 lg:w-5/12">
+                <img src="{{ asset('storage/images/image1.jpg') }}" alt="image" loading="lazy" width="" height="">
+            </div>
+            <div class="md:7/12 lg:w-6/12">
+                <h2 class="text-2xl font-bold md:text-4xl">Preserving Moroccan Heritage Through Timeless Craftsmanship</h2>
+                <p class="mt-6">At Moroccan Heritage Marketplace, we are more than just an online store; we are custodians of Moroccan tradition and heritage. Our journey began with a passion for preserving the rich cultural legacy of Morocco, a land known for its exquisite craftsmanship and timeless artisanal traditions.</p>
+                <p class="mt-4">Our collection features a curated selection of authentic Moroccan tools and products, meticulously crafted by skilled artisans who have inherited their craft through generations. Each item tells a story, echoing the essence of Moroccan heritage and the dedication of its craftsmen.</p>
+                <p class="mt-4">From hand-carved woodwork to intricately designed ceramics, our catalog celebrates the diversity and beauty of Moroccan culture. Whether you're seeking traditional tools for culinary endeavors, decorative pieces to adorn your home, or unique gifts that encapsulate the spirit of Morocco, you'll find it here.</p>
+                <p class="mt-4">We take pride in fostering sustainable practices and supporting local artisans, ensuring that the legacy of Moroccan craftsmanship continues to thrive. With every purchase, you become a part of this journey, preserving tradition and empowering communities.</p>
+                <p class="mt-4">Welcome to Moroccan Heritage Marketplace, where heritage meets craftsmanship, and each product tells a story of Morocco's vibrant past and enduring legacy.</p>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- end about section  -->
 <script>
     let errors = document.querySelectorAll('.errors');
     let formButton = document.querySelector('#formSubmitButton');
@@ -282,8 +285,16 @@
                 }
             })
             .catch(error => console.log(error))
-            .finally(() => formButton.value = 'Submit')
+            .finally(() => {
+                formButton.value = 'Submit';
+                setTimeout(() => {
+                    [...errors].map(itm => itm.innerHTML = '');
+                    success.innerHTML = '';
+                }, 4000)
+            })
     });
+
+
 </script>
 
 
