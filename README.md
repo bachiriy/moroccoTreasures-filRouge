@@ -11,7 +11,7 @@ Welcome to the Moroccan Heritage Marketplace repository! This project is dedicat
 
 ## Introduction
 
-The Moroccan Heritage Marketplace is a web application that focuses on preserving and promoting Moroccan traditional tools and accessories. The project aims to connect artisans and sellers with a global audience, allowing users to explore and purchase authentic Moroccan products. Additionally, the platform includes an admin page for easy management of products.
+The Moroccan Heritage Marketplace is a web application that focuses on preserving and promoting Moroccan traditional tools and accessories. The project aims to connect artisans and sellers with a global audience, allowing users to explore and purchase authentic Moroccan products. Additionally, the platform includes an admin page for total and easy management the entire website.
 
 ## Features
 
@@ -19,7 +19,7 @@ The Moroccan Heritage Marketplace is a web application that focuses on preservin
 - **User-friendly Interface:** Enjoy a responsive and intuitive website design for a seamless user experience.
 - **Shopping Cart:** Add desired items to your cart and proceed to a secure checkout process.
 - **User Accounts:** Create an account to track your orders and manage your profile information.
-- **Admin Panel:** An admin page to add, edit, and remove products from the catalog.
+- **Admin Panel:** An admin page to manage products, categories, users, requests.
 
 ## Getting Started
 
@@ -31,30 +31,30 @@ To run the project locally, follow these steps:
     git clone https://github.com/Youcode-Classe-E-2023-2024/Med-El-Bachiri_Fil_Rouge.git
     ```
 
-2. Install dependencies:
+2. Install Composer:
 
     ```bash
-    npm install
+    composer install
     ```
 
-3. Set up the database:
+3. Run Seeders:
 
     ```bash
-    npm run setup-db
+    php artisan db:seed
     ```
 
 4. Start the development server:
 
     ```bash
-    npm start
+    php artisan serve
     ```
 
-5. Open your browser and visit [http://localhost:3000](http://localhost:3000).
+5. Open your browser and visit [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ## Usage
 
 - **User Portal:** Visit the website, explore the catalog, and make purchases. Create an account to track orders.
-- **Admin Panel:** Access the admin page to add new products, edit existing ones, and manage the catalog.
+- **Admin Panel:** Access the admin page to manage products, categories, users, requests.
 
 ## Figma
 
