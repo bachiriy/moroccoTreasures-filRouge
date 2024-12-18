@@ -1,6 +1,6 @@
-# Moroccan Heritage Marketplace
+# MoroccoTreasures | Moroccan Heritage Marketplace
 
-Welcome to the Moroccan Heritage Marketplace repository! This project is dedicated to creating a vibrant online platform for selling traditional Moroccan tools and accessories. Not only does it provide users with the convenience of purchasing these cultural items, but it also serves as a space to celebrate and promote Moroccan traditions.
+Welcome to the MoroccoTreasures repository! This project is dedicated to creating a vibrant online platform for selling traditional Moroccan tools and accessories. Not only does it provide users with the convenience of purchasing these cultural items, but it also serves as a space to celebrate and promote Moroccan traditions.
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@ Welcome to the Moroccan Heritage Marketplace repository! This project is dedicat
 
 ## Introduction
 
-The Moroccan Heritage Marketplace is a web application that focuses on preserving and promoting Moroccan traditional tools and accessories. The project aims to connect artisans and sellers with a global audience, allowing users to explore and purchase authentic Moroccan products. Additionally, the platform includes an admin page for total and easy management the entire website.
+The MoroccoTreasures is a web application that focuses on preserving and promoting Moroccan traditional tools and accessories. The project aims to connect artisans and sellers with a global audience, allowing users to explore and purchase authentic Moroccan products. Additionally, the platform includes an admin page for total and easy management the entire website.
 
 ## Features
 
