@@ -1,4 +1,4 @@
-# MoroccoTreasures | Moroccan Heritage Marketplace
+![Screenshot from 2025-02-14 09-57-06](https://github.com/user-attachments/assets/bc3f049c-781c-4650-a256-6712d2706249)# MoroccoTreasures | Moroccan Heritage Marketplace
 
 Welcome to the MoroccoTreasures repository! This project is dedicated to creating a vibrant online platform for selling traditional Moroccan tools and accessories. Not only does it provide users with the convenience of purchasing these cultural items, but it also serves as a space to celebrate and promote Moroccan traditions.
 
@@ -13,6 +13,10 @@ Welcome to the MoroccoTreasures repository! This project is dedicated to creatin
 
 The MoroccoTreasures is a web application that focuses on preserving and promoting Moroccan traditional tools and accessories. The project aims to connect artisans and sellers with a global audience, allowing users to explore and purchase authentic Moroccan products. Additionally, the platform includes an admin page for total and easy management the entire website.
 
+## Overview
+![Screenshot from 2025-02-14 09-56-44](https://github.com/user-attachments/assets/1fd118e9-f62a-4915-9d0d-e1c04b74d942)
+![Screenshot from 2025-02-14 09-57-06](https://github.com/user-attachments/assets/98679201-d9cd-46cf-aea4-dcfdcb5df9f2)
+---
 ## Features
 
 - **Product Catalog:** Browse through a diverse range of traditional Moroccan tools and accessories.
@@ -58,4 +62,4 @@ To run the project locally, follow these steps:
 
 ## Figma
 
-- https://www.figma.com/file/CjNT9ARG93EhLPM2SeWLdv/Fill-Rouge?type=design&node-id=0%3A1&mode=design&t=s6pOZolSqqBlcaGj-1
+- [See Figma UI/UX](https://www.figma.com/file/CjNT9ARG93EhLPM2SeWLdv/Fill-Rouge?type=design&node-id=0%3A1&mode=design&t=s6pOZolSqqBlcaGj-1)
