@@ -1,5 +1,3 @@
-![Screenshot from 2025-02-14 09-57-06](https://github.com/user-attachments/assets/bc3f049c-781c-4650-a256-6712d2706249)# MoroccoTreasures | Moroccan Heritage Marketplace
-
 Welcome to the MoroccoTreasures repository! This project is dedicated to creating a vibrant online platform for selling traditional Moroccan tools and accessories. Not only does it provide users with the convenience of purchasing these cultural items, but it also serves as a space to celebrate and promote Moroccan traditions.
 
 ## Table of Contents
